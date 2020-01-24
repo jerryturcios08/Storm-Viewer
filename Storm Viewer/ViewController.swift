@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UITableViewController {
-    var pictures = [String]()
+    var pictures = [StormImage]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,18 +17,41 @@ class ViewController: UITableViewController {
         title = "Storm Viewer"
         navigationController?.navigationBar.prefersLargeTitles = true
 
-        let fm = FileManager.default
-        let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(shareTapped)
+        )
 
-        for item in items {
-            if item.hasPrefix("nssl") {
-                // This is a picture to load!
-                pictures.append(item)
+        let defaults = UserDefaults.standard
+
+        if let savedData = defaults.object(forKey: "pictures") as? Data {
+            let jsonDecoder = JSONDecoder()
+
+            do {
+                pictures = try jsonDecoder.decode([StormImage].self, from: savedData)
+            } catch {
+                print("Failed to decode data from JSON")
+            }
+        } else {
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                let fm = FileManager.default
+                let path = Bundle.main.resourcePath!
+                let items = try! fm.contentsOfDirectory(atPath: path)
+
+                for item in items {
+                    if item.hasPrefix("nssl") {
+                        // This is a picture to load!
+                        let image = StormImage(imageName: item)
+                        self?.pictures.append(image)
+                    }
+                }
+
+                self?.pictures.sort()
             }
         }
 
-        pictures.sort()
+        tableView.reloadData()
     }
 
     /// The method calculates the number of rows for the table view using the number of items in the
@@ -46,7 +69,10 @@ class ViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: "Picture", for: indexPath
         )
-        cell.textLabel?.text = pictures[indexPath.row]
+
+        cell.textLabel?.text = pictures[indexPath.row].imageName
+        cell.detailTextLabel?.text = "View count: \(pictures[indexPath.row].viewCount)"
+
         return cell
     }
 
@@ -58,8 +84,38 @@ class ViewController: UITableViewController {
             as? DetailViewController
         {
             vc.detailTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
-            vc.selectedImage = pictures[indexPath.row]
+            vc.selectedImage = pictures[indexPath.row].imageName
+
+            // Updates the view count and reloads the table's data
+            pictures[indexPath.row].viewCount += 1
+            save()
+            tableView.reloadData()
+
             navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+    /// Shares the application link (?) to others when the user presses the share button
+    @objc func shareTapped() {
+        let vc = UIActivityViewController(
+            activityItems: ["Checkout Storm Viewer on the App Store: link?"],
+            applicationActivities: []
+        )
+
+        vc.popoverPresentationController?.barButtonItem =
+            navigationItem.rightBarButtonItem
+
+        present(vc, animated: true)
+    }
+
+    func save() {
+        let jsonEncoder = JSONEncoder()
+
+        if let savedData = try? jsonEncoder.encode(pictures) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "pictures")
+        } else {
+            print("Failed to encode data to JSON")
         }
     }
 }

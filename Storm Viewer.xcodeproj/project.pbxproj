@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C675249823D0E076005A4723 /* StormImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C675249723D0E076005A4723 /* StormImage.swift */; };
 		C6E6CF5323BBB1D4007992B2 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E6CF5223BBB1D4007992B2 /* DetailViewController.swift */; };
 		C6ED7F5D23BA77250000C39C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ED7F5C23BA77250000C39C /* AppDelegate.swift */; };
 		C6ED7F5F23BA77250000C39C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ED7F5E23BA77250000C39C /* SceneDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C675249723D0E076005A4723 /* StormImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StormImage.swift; sourceTree = "<group>"; };
 		C6E6CF5223BBB1D4007992B2 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		C6ED7F5923BA77250000C39C /* Storm Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Storm Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6ED7F5C23BA77250000C39C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				C6ED7F6223BA77250000C39C /* Main.storyboard */,
 				C6ED7F5E23BA77250000C39C /* SceneDelegate.swift */,
 				C6ED7F6023BA77250000C39C /* ViewController.swift */,
+				C675249723D0E076005A4723 /* StormImage.swift */,
 			);
 			path = "Storm Viewer";
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C675249823D0E076005A4723 /* StormImage.swift in Sources */,
 				C6ED7F6123BA77250000C39C /* ViewController.swift in Sources */,
 				C6ED7F5D23BA77250000C39C /* AppDelegate.swift in Sources */,
 				C6ED7F5F23BA77250000C39C /* SceneDelegate.swift in Sources */,
